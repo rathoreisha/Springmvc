@@ -1,0 +1,393 @@
+Bean Scopes:
+===========
+
+Bean scope decides how many objects should be created for bean class by IOC container.
+
+In spring we have below scopes
+
+1)Singleton
+2)Prototype
+3)request
+4)session
+5)global(It removed from spring 3.0)
+
+By deafult all spring beans are singleton scopes that means IOC container will create only one object
+for each class.
+
+prototype will create everytime new Object.
+
+request and session scopes we will use in Spring MVC based application.
+
+@Scope annotation we can use at class level and method level.
+
+
+
+Example 1:   SingleTone scope  on class level
+
+
+package com.BikkadIT.ScopeOfBean.model;
+
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
+
+@Component
+@Scope("singleton")
+public class Employee {
+
+	public Employee() {
+		super();
+		System.out.println("Employee Class Constructor");
+	}	
+	
+}
+
+
+package com.BikkadIT.ScopeOfBean;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.ConfigurableApplicationContext;
+
+import com.BikkadIT.ScopeOfBean.model.Employee;
+
+@SpringBootApplication
+public class ScopeOfBeanApplication {
+
+	public static void main(String[] args) {
+		ConfigurableApplicationContext context = SpringApplication.run(ScopeOfBeanApplication.class, args);
+
+		Employee bean = context.getBean(Employee.class);
+	   System.out.println(bean.hashCode());
+	   boolean singleton = context.isSingleton("employee");
+	   System.out.println(singleton);
+	   
+	   Employee bean1 = context.getBean(Employee.class);
+	   System.out.println(bean1.hashCode());
+	   boolean singleton1 = context.isSingleton("employee");
+	   System.out.println(singleton1);
+	}
+
+}
+
+
+Example 2:  By deafult all spring beans are singleton scopes that means IOC container will create only one object
+for each class.
+
+
+
+package com.BikkadIT.ScopeOfBean.model;
+
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
+
+@Component
+
+public class Employee {
+
+	public Employee() {
+		super();
+		System.out.println("Employee Class Constructor");
+	}
+
+	
+	
+	
+}
+
+
+
+package com.BikkadIT.ScopeOfBean;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.ConfigurableApplicationContext;
+
+import com.BikkadIT.ScopeOfBean.model.Employee;
+
+@SpringBootApplication
+public class ScopeOfBeanApplication {
+
+	public static void main(String[] args) {
+		ConfigurableApplicationContext context = SpringApplication.run(ScopeOfBeanApplication.class, args);
+
+		Employee bean = context.getBean(Employee.class);
+	   System.out.println(bean.hashCode());
+	   boolean singleton = context.isSingleton("employee");
+	   System.out.println(singleton);
+	   
+	   Employee bean1 = context.getBean(Employee.class);
+	   System.out.println(bean1.hashCode());
+	   boolean singleton1 = context.isSingleton("employee");
+	   System.out.println(singleton1);
+	}
+
+}
+
+
+
+
+Example : Prototype on class level
+
+
+package com.BikkadIT.ScopeOfBean.model;
+
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
+
+@Component
+
+@Scope("prototype")
+public class Employee {
+
+	public Employee() {
+		super();
+		System.out.println("Employee Class Constructor");
+	}
+
+	
+	
+	
+}
+
+
+
+package com.BikkadIT.ScopeOfBean;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.ConfigurableApplicationContext;
+
+import com.BikkadIT.ScopeOfBean.model.Employee;
+
+@SpringBootApplication
+public class ScopeOfBeanApplication {
+
+	public static void main(String[] args) {
+		ConfigurableApplicationContext context = SpringApplication.run(ScopeOfBeanApplication.class, args);
+
+		Employee bean = context.getBean(Employee.class);
+	   System.out.println(bean.hashCode());
+	   boolean singleton = context.isPrototype("employee");
+	   System.out.println(singleton);
+	   
+	   Employee bean1 = context.getBean(Employee.class);
+	   System.out.println(bean1.hashCode());
+	   boolean singleton1 = context.isPrototype("employee");
+	   System.out.println(singleton1);
+	}
+
+}
+
+
+Example : In tghe case od prototype it will bean on demand.
+
+
+package com.BikkadIT.ScopeOfBean.model;
+
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
+
+@Component
+
+@Scope("prototype")
+public class Employee {
+
+	public Employee() {
+		super();
+		System.out.println("Employee Class Constructor");
+	}
+
+	
+	
+	
+}
+
+
+
+package com.BikkadIT.ScopeOfBean;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.ConfigurableApplicationContext;
+
+import com.BikkadIT.ScopeOfBean.model.Employee;
+
+@SpringBootApplication
+public class ScopeOfBeanApplication {
+
+	public static void main(String[] args) {
+		ConfigurableApplicationContext context = SpringApplication.run(ScopeOfBeanApplication.class, args);
+
+	   Employee bean = context.getBean(Employee.class);
+	   System.out.println(bean.hashCode());
+	   boolean singleton = context.isPrototype("employee");
+	   System.out.println(singleton);
+	   
+//	   Employee bean1 = context.getBean(Employee.class);
+//	   System.out.println(bean1.hashCode());
+//	   boolean singleton1 = context.isPrototype("employee");
+//	   System.out.println(singleton1);
+	}
+
+}
+
+
+
+
+Example : singleton on method level 
+
+
+package com.BikkadIT.ScopeOfBean.model;
+
+
+
+
+
+public class Employee {
+
+	public Employee() {
+		super();
+		System.out.println("Employee Class Constructor");
+	}
+
+	
+	
+	
+}
+
+
+
+package com.BikkadIT.ScopeOfBean.config;
+
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Scope;
+
+import com.BikkadIT.ScopeOfBean.model.Employee;
+
+@Configuration
+public class JavaConfig {
+
+	@Bean
+	@Scope("singleton")
+	public Employee getBean() {
+		Employee emp = new Employee();
+
+		return emp;
+	}
+}
+
+
+
+package com.BikkadIT.ScopeOfBean;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.ConfigurableApplicationContext;
+
+import com.BikkadIT.ScopeOfBean.model.Employee;
+
+@SpringBootApplication
+public class ScopeOfBeanApplication {
+
+	public static void main(String[] args) {
+		ConfigurableApplicationContext context = SpringApplication.run(ScopeOfBeanApplication.class, args);
+
+	   Employee bean = context.getBean(Employee.class);
+	   System.out.println(bean.hashCode());
+	   boolean singleton = context.isSingleton("getBean");
+	   System.out.println(singleton);
+	   boolean protytype = context.isPrototype("getBean");
+	   System.out.println(protytype);
+	   
+	   Employee bean1 = context.getBean(Employee.class);
+	   System.out.println(bean1.hashCode());
+	   boolean singleton1 = context.isSingleton("getBean");
+	   System.out.println(singleton1);
+	   
+	   boolean protypte1 = context.isPrototype("getBean");
+	   System.out.println(protypte1);
+	}
+
+}
+
+
+Example :  prottype for method level
+
+
+
+package com.BikkadIT.ScopeOfBean.model;
+
+
+
+
+
+public class Employee {
+
+	public Employee() {
+		super();
+		System.out.println("Employee Class Constructor");
+	}
+
+	
+	
+	
+}
+
+
+
+package com.BikkadIT.ScopeOfBean.config;
+
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Scope;
+
+import com.BikkadIT.ScopeOfBean.model.Employee;
+
+@Configuration
+public class JavaConfig {
+
+	@Bean
+	@Scope("prototype")
+	public Employee getBean() {
+		Employee emp = new Employee();
+
+		return emp;
+	}
+}
+
+
+package com.BikkadIT.ScopeOfBean;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.ConfigurableApplicationContext;
+
+import com.BikkadIT.ScopeOfBean.model.Employee;
+
+@SpringBootApplication
+public class ScopeOfBeanApplication {
+
+	public static void main(String[] args) {
+		ConfigurableApplicationContext context = SpringApplication.run(ScopeOfBeanApplication.class, args);
+
+	   Employee bean = context.getBean(Employee.class);
+	   System.out.println(bean.hashCode());
+	   boolean singleton = context.isSingleton("getBean");
+	   System.out.println(singleton);
+	   boolean protytype = context.isPrototype("getBean");
+	   System.out.println(protytype);
+	   
+	   Employee bean1 = context.getBean(Employee.class);
+	   System.out.println(bean1.hashCode());
+	   boolean singleton1 = context.isSingleton("getBean");
+	   System.out.println(singleton1);
+	   
+	   boolean protypte1 = context.isPrototype("getBean");
+	   System.out.println(protypte1);
+	}
+
+}
+
+
+
